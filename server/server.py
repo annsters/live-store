@@ -10,27 +10,28 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://test:test@localhost/store'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
 class Items(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(80), unique = True)
-    category = db.Column(db.String(120))
-    amount = db.Column(db.String(120))
+    id = db.Column(db.Integer, primary_key=True)
+    storeId = db.Column('storeId', db.Integer)
+    name = db.Column('name', db.String(80))
+    category = db.Column('category',db.String(120))
+    amount = db.Column('amount',db.Integer)
+   
 
-
-    def __init__(self, user, item, store, location):
+    def __init__(self, name, category, amount, storeId):
         self.name = name
         self.category = category
         self.amount = amount
+        self.storeId = storeId
 
 class Stores(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(80), unique = True)
-    location = db.Column(db.String(120))
+    id = db.Column(db.Integer, primary_key=True)
+    storeName = db.Column( 'storeName', db.String(80), unique = True)
+    location = db.Column('location', db.String(120))
+    
 
-
-    def __init__(self, user, item, store, location):
-        self.name = name
+    def __init__(self, storeName, location):
+        self.storeName = storeName
         self.location = location
 
 # is this bad on repeated invocations?
@@ -49,12 +50,16 @@ def postItem():
     print("postinglkaj")
     print(request.json)
     item = request.json.get('name', None)
-
-
-
     items.append(item)
     print(items)
     print("Succesfully added item")
+
+    newItem = Items(name=request.json.get('name'), category = request.json.get('category'), 
+            amount = request.json.get('amount'), storeId = request.json.get('storeId'))
+    
+    db.session.add(newItem)
+    db.session.flush()
+    db.session.commit()
 
     return jsonify(),200
 
