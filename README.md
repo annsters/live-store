@@ -35,5 +35,8 @@ npm start
 ```
 ### db (should only need to do once)
 ```
-docker run --rm -e POSTGRES_USER=docker -e POSTGRES_PASSWORD=docker -e POSTGRES_DB=store --name pg-docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres
+docker-compose up
 ```
+
+### manually shell into db
+psql -h localhost -U postgres -d postgres
