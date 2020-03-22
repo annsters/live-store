@@ -39,4 +39,6 @@ docker-compose up
 ```
 
 ### manually shell into db
-psql -h localhost -U postgres -d postgres
+```
+psql -h localhost -U test -d postgres
+```
