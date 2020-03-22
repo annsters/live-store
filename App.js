@@ -1,29 +1,53 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput} from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import {postItem} from './Api';
 
-export default class App extends React.Component {
-  state = {
-    search: '',
-  }
-  updateSearch = search => {
-    this.setState({search});
-  };
-  render(){
-    const {search} = this.state;
+
+const App = ()=>{
+  
+  const [itemName, updateName] = React.useState('')
+  const [category, updateCategory] = React.useState('')
+  const [amount, updateAmount] = React.useState('')
+  const [storeId, updateStore] = React.useState('')
+
+
+
     return (
       <View style={styles.container}>
         <Text>What do you need?</Text>
-        <Text>{search}</Text>
-        <SearchBar 
-          placeholder="Type Here..."
-          onChangeText = {this.updateSearch}
-          value = {search}
+        
+        <TextInput
+          placeholder = "What did you find?"
+          onChangeText = {updateName}
+          value = {itemName}
         />
+         <TextInput
+          placeholder = "Category of Item"
+          onChangeText = {updateCategory}
+          value = {category}
+        />
+        <TextInput
+          placeholder = "Amount of Item"
+          onChangeText = {updateAmount}
+          value = {amount}
+        />
+        <TextInput
+          placeholder = "Store Id"
+          onChangeText = {updateStore}
+          value = {storeId}
+        />
+        <Button
+          title="Submit Item"
+          onPress={()=>{postItem(itemName, category, amount, storeId)}}
+        />
+
       </View>
     );
   }
-}
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -33,3 +57,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
