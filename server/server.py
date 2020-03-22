@@ -6,11 +6,9 @@ from sqlalchemy import create_engine
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://annielu:blizzard@localhost/store-db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://test:test@localhost/store'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
-
-
 
 
 class Items(db.Model):
@@ -18,7 +16,7 @@ class Items(db.Model):
     name = db.Column(db.String(80), unique = True)
     category = db.Column(db.String(120))
     amount = db.Column(db.String(120))
-   
+
 
     def __init__(self, user, item, store, location):
         self.name = name
@@ -29,12 +27,13 @@ class Stores(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(80), unique = True)
     location = db.Column(db.String(120))
-    
+
 
     def __init__(self, user, item, store, location):
         self.name = name
         self.location = location
 
+# is this bad on repeated invocations?
 db.create_all()
 
 items = []
@@ -51,7 +50,7 @@ def postItem():
     print(request.json)
     item = request.json.get('name', None)
 
-   
+
 
     items.append(item)
     print(items)
