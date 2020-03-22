@@ -16,13 +16,6 @@ npm install
 ```
 then, click "run in web browser" on expo cli
 
-### db
-install docker
-```
-docker pull postgres
-mkdir -p $HOME/docker/volumes/postgres
-```
-
 ## run stuff
 ### server
 ```
@@ -42,3 +35,4 @@ docker-compose up
 ```
 psql -h localhost -U test -d postgres
 ```
+password is test
