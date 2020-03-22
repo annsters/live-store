@@ -10,6 +10,10 @@ pyenv virtualenv 3.7.7 store-server
 pyenv activate store-server
 pip install -r requirements.txt
 ```
+to switch back to this virtualenv later, use
+```
+pyenv activate store-server
+```
 ### client
 ```
 npm install
