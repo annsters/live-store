@@ -26,13 +26,16 @@ class Items(db.Model):
 
 class Stores(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    storeName = db.Column( 'storeName', db.String(80), unique = True)
-    location = db.Column('location', db.String(120))
-    
+    storeName = db.Column('storeName', db.String(80), unique = True)
+    latitude = db.Column('latitude', db.Float)
+    longitude = db.Column('longitude', db.Float)
+    category = db.Column('category', db.String(80))
 
-    def __init__(self, storeName, location):
+    def __init__(self, storeName, category, latitude, longitude):
         self.storeName = storeName
-        self.location = location
+        self.latitude = latitude
+        self.longitude = longitude
+        self.category = category
 
 # is this bad on repeated invocations?
 db.create_all()
@@ -58,6 +61,22 @@ def postItem():
             amount = request.json.get('amount'), storeId = request.json.get('storeId'))
     
     db.session.add(newItem)
+    db.session.flush()
+    db.session.commit()
+
+    return jsonify(),200
+
+@app.route("/newStore", methods = ["POST"])
+def postStore():
+
+    print("posting store")
+    print(request.json)
+   
+
+    newStore = Stores(storeName=request.json.get('storeName'), category = request.json.get('category'), 
+            latitude = request.json.get('latitude'), longitude = request.json.get('longitude'))
+    
+    db.session.add(newStore)
     db.session.flush()
     db.session.commit()
 
