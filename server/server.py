@@ -10,6 +10,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://test:test@localhost/store'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
+
 class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     storeId = db.Column('storeId', db.Integer)
@@ -26,7 +28,7 @@ class Items(db.Model):
 
 class Stores(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    storeName = db.Column('storeName', db.String(80), unique = True)
+    storeName = db.Column('storeName', db.String(80))
     latitude = db.Column('latitude', db.Float)
     longitude = db.Column('longitude', db.Float)
     category = db.Column('category', db.String(80))
@@ -80,7 +82,9 @@ def postStore():
     db.session.flush()
     db.session.commit()
 
-    return jsonify(),200
+
+
+
 
 if __name__ == '__main__':
     app.run(debug = True)
